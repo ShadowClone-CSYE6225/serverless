@@ -16,29 +16,29 @@ exports.handler = async function (event) {
     const expirationTime = secondsInEpoch + seconds;
 
 //Creating a table for DynamoDB 
-const item = {
-    Item: {
-        "Email": {
-            S: `${emailAddress}`
-        },
-        "Token":{ 
-        S: `${token}`
-        },
-        "TimeToLive":{
-        S: expirationTime.toString()
-        },
-    },
-    TableName : "csye6225",
-    ReturnConsumedCapacity: "TOTAL"
-  }
+// const item = {
+//     Item: {
+//         "Email": {
+//             S: `${emailAddress}`
+//         },
+//         "TokenName":{ 
+//         S: `${token}`
+//         },
+//         "TimeToLive":{
+//         S: expirationTime.toString()
+//         },
+//     },
+//     TableName : "csye6225",
+//     ReturnConsumedCapacity: "TOTAL"
+//   }
 
-  //Putting an item to DynamoDB Table
-  const data = await dynamoDatabase.putItem(item, function(error, data){
-    if(error) console.error(error, error.stack)
-    else return data
-})
+//   //Putting an item to DynamoDB Table
+//   const data = await dynamoDatabase.putItem(item, function(error, data){
+//     if(error) console.error(error, error.stack)
+//     else return data
+// })
 
-console.log("Item inserted into table", data)
+// console.log("Item inserted into table", data)
 
 const body = `
 <!DOCTYPE html>
@@ -50,8 +50,8 @@ const body = `
       <p>Please verify your email</br>
       <b>Link will be valid only for 5 minutes!</b></br>
       Find your link below:</p>
-      <p><a href=prod.pratiktalreja.me/v1/user/verifyUserEmail?token=${token}&email=${emailAddress} >
-        demo.pratiktalreja.me/v1/user/verifyUserEmail?token=${token}&email=${emailAddress} </a> </p>
+      <p><a href=prod.pratiktalreja.me:6969/v1/verifyUserEmail?token=${token}&email=${emailAddress} >
+        prod.pratiktalreja.me:6969/v1/verifyUserEmail?token=${token}&email=${emailAddress} </a> </p>
         </body></html>
     </body>
 </html>`;
