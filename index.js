@@ -15,31 +15,6 @@ exports.handler = async function (event) {
     const secondsInEpoch = Math.round(Date.now() / 1000);
     const expirationTime = secondsInEpoch + seconds;
 
-//Creating a table for DynamoDB 
-// const item = {
-//     Item: {
-//         "Email": {
-//             S: `${emailAddress}`
-//         },
-//         "TokenName":{ 
-//         S: `${token}`
-//         },
-//         "TimeToLive":{
-//         S: expirationTime.toString()
-//         },
-//     },
-//     TableName : "csye6225",
-//     ReturnConsumedCapacity: "TOTAL"
-//   }
-
-//   //Putting an item to DynamoDB Table
-//   const data = await dynamoDatabase.putItem(item, function(error, data){
-//     if(error) console.error(error, error.stack)
-//     else return data
-// })
-
-// console.log("Item inserted into table", data)
-
 const body = `
 <!DOCTYPE html>
 <html>
