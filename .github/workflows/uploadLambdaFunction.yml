@@ -1,0 +1,48 @@
+name: Deploying_Lambda_Function
+
+env:
+  GITHUB_REPO_PATH: ${{ github.workspace }}
+
+on:
+  push:
+    branches:
+      - "main"
+    
+  
+  workflow_dispatch:
+
+
+jobs:
+  build:
+    name: lambdaBuild
+    runs-on: ubuntu-latest
+
+    strategy:
+      fail-fast: true
+      matrix:
+        node-version: [16.x]
+    
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Creating zip of lambda index file
+        run: zip -r serverless.zip . -x ".git/*" ".github/*"
+
+      - name: Configure AWS Credentials
+        uses: aws-actions/configure-aws-credentials@v1
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: us-east-1
+      
+      - name: Creating s3 --s3-bucket
+        run: |
+          aws s3 mb s3://serverlessBucket 
+      
+      - name: Copying artifact to S3
+        run: |
+           aws s3 cp ./serverless.zip s3://serverlessBucket
+
+      - name: Lambda Update
+        run: |
+          aws lambda update-function-code --function-name testFunction --zip-file fileb://${{ github.workspace }}/serverless.zip
