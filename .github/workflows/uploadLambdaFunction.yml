@@ -35,13 +35,7 @@ jobs:
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws-region: us-east-1
       
-      - name: Creating s3 --s3-bucket
-        run: |
-          aws s3 mb s3://serverlessBucket 
-      
-      - name: Copying artifact to S3
-        run: |
-           aws s3 cp ./serverless.zip s3://serverlessBucket
+
 
       - name: Lambda Update
         run: |
